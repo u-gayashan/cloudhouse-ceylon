@@ -14,7 +14,8 @@
       "mcp__next-devtools__init",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "mcp__next-devtools__upgrade_nextjs_16"
     ]
   }
 }
