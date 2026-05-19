@@ -15,7 +15,13 @@
       "Bash(git init *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "mcp__next-devtools__upgrade_nextjs_16"
+      "mcp__next-devtools__upgrade_nextjs_16",
+      "Bash(npx @next/codemod@canary upgrade latest)",
+      "Bash(npx @next/codemod@canary upgrade latest --yes)",
+      "Bash(npx @next/codemod@canary upgrade latest --help)",
+      "Bash(npx @next/codemod@canary remove-unstable-prefix .)",
+      "Bash(npx @next/codemod@canary next-async-request-api .)",
+      "Bash(npx @next/codemod@canary remove-experimental-ppr .)"
     ]
   }
 }
