@@ -11,7 +11,7 @@ export function Nav() {
   const { cartCount } = useCart();
   const { shopUnlocked } = useTweakValues();
 
-  const is = (path) => {
+  const is = (path: string) => {
     if (path === "/") return pathname === "/";
     if (path === "/journal") return pathname.startsWith("/journal");
     if (path === "/shop") return pathname.startsWith("/shop");

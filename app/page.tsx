@@ -175,7 +175,7 @@ export default function HomePage() {
                 fontSize: 16,
               }}
             >
-              We're building a tiny stone-and-timber retreat in the upcountry — one circular door,
+              We&apos;re building a tiny stone-and-timber retreat in the upcountry — one circular door,
               one long table, one stove on at all hours. Tea drinkers welcome, eventually.
             </p>
             <div className="row" style={{ marginTop: 22 }}>
@@ -355,8 +355,8 @@ export default function HomePage() {
                   The shop opens when the journal does.
                 </h3>
                 <p style={{ color: "var(--ink-soft)", maxWidth: "50ch", margin: "0 auto" }}>
-                  We're slow-launching. Once {audienceTarget.toLocaleString()} readers have joined
-                  the Cloudhouse journal, we'll open online ordering for tea pulled this season.
+                  We&apos;re slow-launching. Once {audienceTarget.toLocaleString()} readers have joined
+                  the Cloudhouse journal, we&apos;ll open online ordering for tea pulled this season.
                 </p>
 
                 <div className="threshold-bar">
@@ -394,21 +394,21 @@ export default function HomePage() {
           style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }}
         >
           <div className="quote">
-            "You don't drink the elevation. <em>But you can taste it,</em> if the leaf has been
-            left alone."
+            &quot;You don&apos;t drink the elevation. <em>But you can taste it,</em> if the leaf has been
+            left alone.&quot;
           </div>
           <div className="stack-3">
             <Eyebrow>Letter from the field · No. 04</Eyebrow>
             <p style={{ color: "var(--ink-soft)" }}>
-              Every Cloudhouse tea is single-estate and single-flush. We don't blend across regions
+              Every Cloudhouse tea is single-estate and single-flush. We don&apos;t blend across regions
               or years. The cup you receive in May is the cup that grew in March.
             </p>
             <p style={{ color: "var(--ink-soft)" }}>
-              That's also why we're slow. Our small volumes go fast, and we won't stretch a harvest
+              That&apos;s also why we&apos;re slow. Our small volumes go fast, and we won&apos;t stretch a harvest
               by mixing.
             </p>
             <div className="row" style={{ gap: 12, marginTop: 10 }}>
-              <PH className="round" style={{ width: 44, height: 44, aspectRatio: 1 }} />
+              <PH className="round" style={{ width: 44, height: 44, aspectRatio: "1" }} />
               <div>
                 <div style={{ fontFamily: "var(--f-display)", fontSize: 16 }}>
                   Sahan Wijesinghe

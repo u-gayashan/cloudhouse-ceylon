@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Btn, Eyebrow, PH } from "@/components/ui";
 import { useCart } from "@/app/providers";
+import type { CartLine } from "@/lib/types";
 
 export default function CartPage() {
   const router = useRouter();
@@ -11,7 +12,8 @@ export default function CartPage() {
   const subtotal = cart.reduce((s, l) => s + l.qty * l.product.price, 0);
   const shipping = subtotal > 5000 ? 0 : 450;
   const total = subtotal + shipping;
-  const set = (id, fn) =>
+
+  const set = (id: string, fn: (l: CartLine) => Partial<CartLine>) =>
     setCart(
       cart
         .map((l) => (l.id === id ? { ...l, ...fn(l) } : l))

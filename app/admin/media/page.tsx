@@ -3,8 +3,13 @@
 import { Btn, Eyebrow, PH } from "@/components/ui";
 import { AdminSidebar } from "@/components/admin-shared";
 
+interface MediaItem {
+  t: string;
+  l: string;
+}
+
 export default function AdminMediaPage() {
-  const media = [
+  const media: MediaItem[] = [
     { t: "PHOTO", l: "uva-pickers-dawn.jpg" },
     { t: "FILM", l: "dimbula-04-12.mp4" },
     { t: "PHOTO", l: "leaf-detail-03.jpg" },

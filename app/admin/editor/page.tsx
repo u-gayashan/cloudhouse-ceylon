@@ -12,9 +12,9 @@ function AdminEditorInner() {
   const id = params?.get("id");
   const existing = id ? POSTS.find((p) => p.id === id) : null;
 
-  const [title, setTitle] = React.useState(existing?.title || "");
-  const [body, setBody] = React.useState(existing?.body?.join("\n\n") || "");
-  const [cat, setCat] = React.useState(existing?.category || "Estate Story");
+  const [title, setTitle] = React.useState(existing?.title ?? "");
+  const [body, setBody] = React.useState(existing?.body?.join("\n\n") ?? "");
+  const [cat, setCat] = React.useState(existing?.category ?? "Estate Story");
 
   return (
     <div className="admin-shell">
@@ -71,7 +71,7 @@ function AdminEditorInner() {
               <button className="active">H2</button>
               <button>H3</button>
               <div className="sep" />
-              <button>"</button>
+              <button>&quot;</button>
               <button>—</button>
               <button>•</button>
               <button>1.</button>
@@ -96,8 +96,8 @@ function AdminEditorInner() {
                 marginTop: 8,
               }}
             >
-              {existing?.date || "Saving as draft · " + new Date().toDateString()} ·{" "}
-              {existing?.read || "—"}
+              {existing?.date ?? "Saving as draft · " + new Date().toDateString()} ·{" "}
+              {existing?.read ?? "—"}
             </div>
             <textarea
               className="editor-body"
@@ -262,7 +262,7 @@ function AdminEditorInner() {
                   <div key={c.n} className="row">
                     <PH
                       className="round"
-                      style={{ width: 28, height: 28, aspectRatio: 1 }}
+                      style={{ width: 28, height: 28, aspectRatio: "1" }}
                     />
                     <div>
                       <div style={{ fontSize: 13.5 }}>{c.n}</div>

@@ -72,27 +72,37 @@ const __TWEAKS_STYLE = `
   .twk-toggle[data-on="1"] i{transform:translateX(14px)}
 `;
 
-export function useTweaks(defaults) {
-  const [values, setValues] = React.useState(defaults);
-  const setTweak = React.useCallback((keyOrEdits, val) => {
-    const edits =
-      typeof keyOrEdits === "object" && keyOrEdits !== null
-        ? keyOrEdits
-        : { [keyOrEdits]: val };
-    setValues((prev) => ({ ...prev, ...edits }));
-    if (typeof window !== "undefined") {
-      try {
-        window.parent.postMessage({ type: "__edit_mode_set_keys", edits }, "*");
-      } catch (e) {}
-      window.dispatchEvent(new CustomEvent("tweakchange", { detail: edits }));
-    }
-  }, []);
+export function useTweaks<T extends object>(
+  defaults: T
+): [T, (keyOrEdits: keyof T | Partial<T>, val?: unknown) => void] {
+  const [values, setValues] = React.useState<T>(defaults);
+  const setTweak = React.useCallback(
+    (keyOrEdits: keyof T | Partial<T>, val?: unknown) => {
+      const edits =
+        typeof keyOrEdits === "object" && keyOrEdits !== null
+          ? (keyOrEdits as Partial<T>)
+          : ({ [keyOrEdits as keyof T]: val } as Partial<T>);
+      setValues((prev) => ({ ...prev, ...edits }));
+      if (typeof window !== "undefined") {
+        try {
+          window.parent.postMessage({ type: "__edit_mode_set_keys", edits }, "*");
+        } catch (_e) {}
+        window.dispatchEvent(new CustomEvent("tweakchange", { detail: edits }));
+      }
+    },
+    []
+  );
   return [values, setTweak];
 }
 
-export function TweaksPanel({ title = "Tweaks", children }) {
+interface TweaksPanelProps {
+  title?: string;
+  children?: React.ReactNode;
+}
+
+export function TweaksPanel({ title = "Tweaks", children }: TweaksPanelProps) {
   const [open, setOpen] = React.useState(false);
-  const dragRef = React.useRef(null);
+  const dragRef = React.useRef<HTMLDivElement>(null);
   const offsetRef = React.useRef({ x: 16, y: 16 });
   const PAD = 16;
 
@@ -124,15 +134,15 @@ export function TweaksPanel({ title = "Tweaks", children }) {
   }, [open, clampToViewport]);
 
   React.useEffect(() => {
-    const onMsg = (e) => {
-      const t = e?.data?.type;
+    const onMsg = (e: MessageEvent) => {
+      const t = (e?.data as { type?: string })?.type;
       if (t === "__activate_edit_mode") setOpen(true);
       else if (t === "__deactivate_edit_mode") setOpen(false);
     };
     window.addEventListener("message", onMsg);
     try {
       window.parent.postMessage({ type: "__edit_mode_available" }, "*");
-    } catch (e) {}
+    } catch (_e) {}
     return () => window.removeEventListener("message", onMsg);
   }, []);
 
@@ -140,10 +150,10 @@ export function TweaksPanel({ title = "Tweaks", children }) {
     setOpen(false);
     try {
       window.parent.postMessage({ type: "__edit_mode_dismissed" }, "*");
-    } catch (e) {}
+    } catch (_e) {}
   };
 
-  const onDragStart = (e) => {
+  const onDragStart = (e: React.MouseEvent) => {
     const panel = dragRef.current;
     if (!panel) return;
     const r = panel.getBoundingClientRect();
@@ -151,7 +161,7 @@ export function TweaksPanel({ title = "Tweaks", children }) {
       sy = e.clientY;
     const startRight = window.innerWidth - r.right;
     const startBottom = window.innerHeight - r.bottom;
-    const move = (ev) => {
+    const move = (ev: MouseEvent) => {
       offsetRef.current = {
         x: startRight - (ev.clientX - sx),
         y: startBottom - (ev.clientY - sy),
@@ -193,7 +203,12 @@ export function TweaksPanel({ title = "Tweaks", children }) {
   );
 }
 
-export function TweakSection({ label, children }) {
+interface TweakSectionProps {
+  label: string;
+  children?: React.ReactNode;
+}
+
+export function TweakSection({ label, children }: TweakSectionProps) {
   return (
     <>
       <div className="twk-sect">{label}</div>
@@ -202,7 +217,14 @@ export function TweakSection({ label, children }) {
   );
 }
 
-export function TweakRow({ label, value, children, inline = false }) {
+interface TweakRowProps {
+  label: string;
+  value?: string | number | null;
+  children?: React.ReactNode;
+  inline?: boolean;
+}
+
+export function TweakRow({ label, value, children, inline = false }: TweakRowProps) {
   return (
     <div className={inline ? "twk-row twk-row-h" : "twk-row"}>
       <div className="twk-lbl">
@@ -214,7 +236,25 @@ export function TweakRow({ label, value, children, inline = false }) {
   );
 }
 
-export function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = "", onChange }) {
+interface TweakSliderProps {
+  label: string;
+  value: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  unit?: string;
+  onChange: (val: number) => void;
+}
+
+export function TweakSlider({
+  label,
+  value,
+  min = 0,
+  max = 100,
+  step = 1,
+  unit = "",
+  onChange,
+}: TweakSliderProps) {
   return (
     <TweakRow label={label} value={`${value}${unit}`}>
       <input
@@ -230,7 +270,13 @@ export function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit =
   );
 }
 
-export function TweakToggle({ label, value, onChange }) {
+interface TweakToggleProps {
+  label: string;
+  value: boolean;
+  onChange: (val: boolean) => void;
+}
+
+export function TweakToggle({ label, value, onChange }: TweakToggleProps) {
   return (
     <div className="twk-row twk-row-h">
       <div className="twk-lbl">
@@ -250,7 +296,16 @@ export function TweakToggle({ label, value, onChange }) {
   );
 }
 
-export function TweakSelect({ label, value, options, onChange }) {
+type TweakOption = string | { value: string; label: string };
+
+interface TweakSelectProps {
+  label: string;
+  value: string;
+  options: TweakOption[];
+  onChange: (val: string) => void;
+}
+
+export function TweakSelect({ label, value, options, onChange }: TweakSelectProps) {
   return (
     <TweakRow label={label}>
       <select
@@ -272,17 +327,26 @@ export function TweakSelect({ label, value, options, onChange }) {
   );
 }
 
-export function TweakRadio({ label, value, options, onChange }) {
-  const trackRef = React.useRef(null);
+interface TweakRadioProps {
+  label: string;
+  value: string;
+  options: TweakOption[];
+  onChange: (val: string) => void;
+}
+
+export function TweakRadio({ label, value, options, onChange }: TweakRadioProps) {
+  const trackRef = React.useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = React.useState(false);
   const valueRef = React.useRef(value);
   valueRef.current = value;
 
-  const labelLen = (o) => String(typeof o === "object" ? o.label : o).length;
+  const labelLen = (o: TweakOption) => String(typeof o === "object" ? o.label : o).length;
   const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
-  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
+  const threshold = ({ 2: 16, 3: 10 } as Partial<Record<number, number>>)[options.length];
+  const fitsAsSegments = maxLen <= (threshold ?? 0);
+
   if (!fitsAsSegments) {
-    const resolve = (s) => {
+    const resolve = (s: string) => {
       const m = options.find(
         (o) => String(typeof o === "object" ? o.value : o) === s
       );
@@ -297,24 +361,26 @@ export function TweakRadio({ label, value, options, onChange }) {
       />
     );
   }
+
   const opts = options.map((o) =>
     typeof o === "object" ? o : { value: o, label: o }
   );
   const idx = Math.max(0, opts.findIndex((o) => o.value === value));
   const n = opts.length;
 
-  const segAt = (clientX) => {
+  const segAt = (clientX: number) => {
+    if (!trackRef.current) return opts[0].value;
     const r = trackRef.current.getBoundingClientRect();
     const inner = r.width - 4;
     const i = Math.floor(((clientX - r.left - 2) / inner) * n);
     return opts[Math.max(0, Math.min(n - 1, i))].value;
   };
 
-  const onPointerDown = (e) => {
+  const onPointerDown = (e: React.PointerEvent) => {
     setDragging(true);
     const v0 = segAt(e.clientX);
     if (v0 !== valueRef.current) onChange(v0);
-    const move = (ev) => {
+    const move = (ev: PointerEvent) => {
       if (!trackRef.current) return;
       const v = segAt(ev.clientX);
       if (v !== valueRef.current) onChange(v);

@@ -1,4 +1,6 @@
-export const POSTS = [
+import type { Post, Product } from "./types";
+
+export const POSTS: Post[] = [
   {
     id: "mist-of-uva",
     title: "Mist over Uva: a season of slow growth",
@@ -66,7 +68,7 @@ export const POSTS = [
   },
 ];
 
-export const PRODUCTS = [
+export const PRODUCTS: Product[] = [
   {
     id: "uva-bop",
     name: "Uva Highland BOP",

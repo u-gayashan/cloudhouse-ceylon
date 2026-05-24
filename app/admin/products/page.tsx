@@ -4,6 +4,8 @@ import { PRODUCTS } from "@/lib/data";
 import { Btn, Eyebrow, PH } from "@/components/ui";
 import { AdminSidebar } from "@/components/admin-shared";
 
+const STOCK = [48, 32, 64, 18, 96, 12, 8, "∞"] as const;
+
 export default function AdminProductsPage() {
   return (
     <div className="admin-shell">
@@ -80,7 +82,7 @@ export default function AdminProductsPage() {
             {PRODUCTS.map((p, i) => (
               <tr key={p.id}>
                 <td>
-                  <PH style={{ width: 40, height: 40, aspectRatio: 1 }} />
+                  <PH style={{ width: 40, height: 40, aspectRatio: "1" }} />
                 </td>
                 <td>
                   <div style={{ fontWeight: 500 }}>{p.name}</div>
@@ -103,7 +105,7 @@ export default function AdminProductsPage() {
                   LKR {p.price.toLocaleString()}
                 </td>
                 <td className="mono" style={{ fontSize: 13 }}>
-                  {[48, 32, 64, 18, 96, 12, 8, "∞"][i] ?? "—"}
+                  {STOCK[i] ?? "—"}
                 </td>
                 <td>
                   <span

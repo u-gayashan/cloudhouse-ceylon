@@ -31,7 +31,7 @@ export default function AboutPage() {
               marginTop: 28,
             }}
           >
-            Cloudhouse is also a place — eventually. We're building a small round-door cottage in
+            Cloudhouse is also a place — eventually. We&apos;re building a small round-door cottage in
             the upcountry, somewhere above the cloud line. One room. Stone walls. A long shared
             table where the tea is always hot.
           </p>
@@ -120,14 +120,14 @@ export default function AboutPage() {
             </div>
           </div>
           <div>
-            <Eyebrow>What it is, what it isn't</Eyebrow>
+            <Eyebrow>What it is, what it isn&apos;t</Eyebrow>
             <p style={{ marginTop: 18, color: "var(--ink-soft)" }}>
-              The cottage isn't a hotel. It's a small place to host tea drinkers a few at a time —
+              The cottage isn&apos;t a hotel. It&apos;s a small place to host tea drinkers a few at a time —
               estate visits, tasting sessions, an afternoon by the stove when the rain comes in
               sideways and stays.
             </p>
             <p style={{ color: "var(--ink-soft)" }}>
-              We'll open a small waiting list when the roof is on. For now, the journal is the
+              We&apos;ll open a small waiting list when the roof is on. For now, the journal is the
               best way to follow the build.
             </p>
             <div className="row" style={{ marginTop: 22 }}>

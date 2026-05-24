@@ -1,12 +1,13 @@
 import "./globals.css";
+import type { Metadata } from "next";
 import { Providers } from "./providers";
 import Shell from "@/components/shell";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Cloudhouse Ceylon — Pure single-origin tea from the Sri Lankan highlands",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"

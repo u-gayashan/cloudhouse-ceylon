@@ -10,7 +10,7 @@ import { useCart, useTweakValues } from "@/app/providers";
 
 export default function ProductPage() {
   const router = useRouter();
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const { addToCart } = useCart();
   const { shopUnlocked } = useTweakValues();
 
@@ -55,7 +55,7 @@ export default function ProductPage() {
                 }}
               >
                 {["DRY LEAF", "LIQUOR", "ESTATE", "TIN"].map((l) => (
-                  <PH key={l} label={l} style={{ aspectRatio: 1 }} />
+                  <PH key={l} label={l} style={{ aspectRatio: "1" }} />
                 ))}
               </div>
             </div>
@@ -245,7 +245,7 @@ export default function ProductPage() {
               </h3>
               <p style={{ color: "var(--ink-soft)", marginTop: 14 }}>
                 A smallholder estate in {p.region}, working at {p.elevation} above sea level. The{" "}
-                {p.flush.toLowerCase()} is what we've sealed for you here — pulled in the cool
+                {p.flush.toLowerCase()} is what we&apos;ve sealed for you here — pulled in the cool
                 weeks of the season and lightly withered.
               </p>
               <div className="row" style={{ marginTop: 18 }}>

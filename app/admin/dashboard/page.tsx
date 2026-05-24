@@ -101,8 +101,8 @@ export default function AdminDashboardPage() {
             >
               <defs>
                 <linearGradient id="ag" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0" stopColor="var(--accent)" stopOpacity=".35" />
-                  <stop offset="1" stopColor="var(--accent)" stopOpacity="0" />
+                  <stop offset="0" stopColor="var(--accent)" stopOpacity={0.35} />
+                  <stop offset="1" stopColor="var(--accent)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               {[40, 80, 120, 160].map((y) => (
@@ -131,11 +131,11 @@ export default function AdminDashboardPage() {
                 { x: 200, y: 150 },
                 { x: 400, y: 95 },
                 { x: 600, y: 30 },
-              ].map((p, i) => (
+              ].map((pt, i) => (
                 <circle
                   key={i}
-                  cx={p.x}
-                  cy={p.y}
+                  cx={pt.x}
+                  cy={pt.y}
                   r="3.5"
                   fill="var(--paper)"
                   stroke="var(--accent)"
@@ -206,7 +206,7 @@ export default function AdminDashboardPage() {
                     borderBottom: "1px solid var(--line)",
                   }}
                 >
-                  <PH className="round" style={{ aspectRatio: 1, height: 32 }} />
+                  <PH className="round" style={{ aspectRatio: "1", height: 32 }} />
                   <div style={{ fontSize: 13 }}>
                     <strong style={{ fontWeight: 500 }}>{a.who}</strong>
                     <span style={{ color: "var(--ink-mute)" }}> {a.what} </span>

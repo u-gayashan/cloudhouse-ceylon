@@ -214,7 +214,7 @@ export default function CheckoutPage() {
                 >
                   <PH
                     label=""
-                    style={{ width: 44, height: 44, aspectRatio: 1, flexShrink: 0 }}
+                    style={{ width: 44, height: 44, aspectRatio: "1", flexShrink: 0 }}
                   />
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 14 }}>{l.product.name}</div>

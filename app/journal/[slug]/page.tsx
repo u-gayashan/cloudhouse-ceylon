@@ -9,7 +9,7 @@ import { JournalCard } from "@/components/cards";
 
 export default function JournalPostPage() {
   const router = useRouter();
-  const params = useParams();
+  const params = useParams<{ slug: string }>();
   const slug = params?.slug;
   const post = POSTS.find((p) => p.id === slug) || POSTS[0];
 
@@ -93,7 +93,7 @@ export default function JournalPostPage() {
                     color: "var(--ink)",
                   }}
                 >
-                  "You can't rush the second flush. The leaf tells you when."
+                  &quot;You can&apos;t rush the second flush. The leaf tells you when.&quot;
                 </blockquote>
               )}
               {i === 2 && (
@@ -117,7 +117,7 @@ export default function JournalPostPage() {
           style={{ justifyContent: "space-between", marginTop: 40, alignItems: "center" }}
         >
           <div className="row">
-            <PH className="round" style={{ width: 56, height: 56, aspectRatio: 1 }} />
+            <PH className="round" style={{ width: 56, height: 56, aspectRatio: "1" }} />
             <div>
               <div style={{ fontFamily: "var(--f-display)", fontSize: 18 }}>
                 Sahan Wijesinghe

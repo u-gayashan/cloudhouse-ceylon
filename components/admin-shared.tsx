@@ -10,7 +10,7 @@ export function AdminSidebar() {
   const pathname = usePathname() || "";
   const { audienceCurrent, audienceTarget } = useTweakValues();
   const pct = Math.min(100, Math.round((audienceCurrent / audienceTarget) * 100));
-  const isActive = (p) => pathname === p;
+  const isActive = (p: string) => pathname === p;
   return (
     <aside className="admin-side">
       <Logo />
@@ -116,7 +116,7 @@ export function AdminSidebar() {
           padding: "8px 10px",
         }}
       >
-        <PH className="round" style={{ width: 32, height: 32, aspectRatio: 1 }} />
+        <PH className="round" style={{ width: 32, height: 32, aspectRatio: "1" }} />
         <div>
           <div style={{ fontSize: 13.5 }}>Sahan W.</div>
           <div
@@ -136,7 +136,11 @@ export function AdminSidebar() {
   );
 }
 
-export function PostsTable({ small }) {
+interface PostsTableProps {
+  small?: boolean;
+}
+
+export function PostsTable({ small }: PostsTableProps) {
   const router = useRouter();
   const status = ["live", "live", "draft", "live", "live", "draft"];
   const list = small ? POSTS.slice(0, 4) : POSTS;
@@ -161,7 +165,7 @@ export function PostsTable({ small }) {
             onClick={() => router.push(`/admin/editor?id=${p.id}`)}
           >
             <td>
-              <PH style={{ width: 36, height: 36, aspectRatio: 1 }} />
+              <PH style={{ width: 36, height: 36, aspectRatio: "1" }} />
             </td>
             <td>
               <div style={{ fontWeight: 500 }}>{p.title}</div>

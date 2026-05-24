@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Nav, Footer } from "./nav";
 import {
@@ -12,7 +13,7 @@ import {
 } from "./tweaks-panel";
 import { useTweakState } from "@/app/providers";
 
-const ROUTE_TO_PATH = {
+const ROUTE_TO_PATH: Record<string, string> = {
   home: "/",
   journal: "/journal",
   post: "/journal/mist-of-uva",
@@ -29,7 +30,7 @@ const ROUTE_TO_PATH = {
   "admin-products": "/admin/products",
 };
 
-const PATH_TO_ROUTE = (pathname) => {
+const PATH_TO_ROUTE = (pathname: string): string => {
   if (pathname === "/") return "home";
   if (pathname.startsWith("/journal/")) return "post";
   if (pathname === "/journal") return "journal";
@@ -47,7 +48,7 @@ const PATH_TO_ROUTE = (pathname) => {
   return "home";
 };
 
-export default function Shell({ children }) {
+export default function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() || "/";
   const router = useRouter();
   const { t, setTweak } = useTweakState();
@@ -56,7 +57,7 @@ export default function Shell({ children }) {
     pathname.startsWith("/admin") && pathname !== "/admin/login";
   const route = PATH_TO_ROUTE(pathname);
 
-  const onRouteChange = (v) => {
+  const onRouteChange = (v: string) => {
     const p = ROUTE_TO_PATH[v] || "/";
     router.push(p);
     if (typeof window !== "undefined") window.scrollTo(0, 0);

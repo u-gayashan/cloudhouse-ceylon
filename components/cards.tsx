@@ -2,8 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { PH, Tag } from "./ui";
+import type { Post, Product } from "@/lib/types";
 
-export function JournalCard({ post, onOpen }) {
+interface JournalCardProps {
+  post: Post;
+  onOpen?: (post: Post) => void;
+}
+
+export function JournalCard({ post, onOpen }: JournalCardProps) {
   const router = useRouter();
   const handleClick = () => {
     if (onOpen) onOpen(post);
@@ -26,7 +32,13 @@ export function JournalCard({ post, onOpen }) {
   );
 }
 
-export function ProductCard({ product, onOpen, locked }) {
+interface ProductCardProps {
+  product: Product;
+  onOpen?: (product: Product) => void;
+  locked?: boolean;
+}
+
+export function ProductCard({ product, onOpen, locked }: ProductCardProps) {
   const router = useRouter();
   const handleClick = () => {
     if (locked) return;
@@ -62,7 +74,11 @@ export function ProductCard({ product, onOpen, locked }) {
   );
 }
 
-export function CeylonMap({ activeRegion }) {
+interface CeylonMapProps {
+  activeRegion?: string;
+}
+
+export function CeylonMap({ activeRegion }: CeylonMapProps) {
   return (
     <div className="region-map">
       <svg
@@ -107,7 +123,11 @@ export function CeylonMap({ activeRegion }) {
   );
 }
 
-export function Marquee({ items }) {
+interface MarqueeProps {
+  items: string[];
+}
+
+export function Marquee({ items }: MarqueeProps) {
   const all = [...items, ...items];
   return (
     <div className="marquee">

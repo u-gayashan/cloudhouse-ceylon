@@ -6,7 +6,12 @@ import { Btn, Eyebrow } from "@/components/ui";
 import { ProductCard } from "@/components/cards";
 import { useTweakValues } from "@/app/providers";
 
-function ShopLocked({ audienceCurrent, audienceTarget }) {
+interface ShopLockedProps {
+  audienceCurrent: number;
+  audienceTarget: number;
+}
+
+function ShopLocked({ audienceCurrent, audienceTarget }: ShopLockedProps) {
   const pct = Math.min(100, Math.round((audienceCurrent / audienceTarget) * 100));
   return (
     <main className="page">
@@ -29,7 +34,7 @@ function ShopLocked({ audienceCurrent, audienceTarget }) {
             readers.
           </h1>
           <p style={{ maxWidth: "62ch", fontSize: 18, color: "var(--ink-soft)" }}>
-            We're slow-launching Cloudhouse. The shop opens to the public once the journal reaches{" "}
+            We&apos;re slow-launching Cloudhouse. The shop opens to the public once the journal reaches{" "}
             {audienceTarget.toLocaleString()} subscribers — enough demand to back a small, ethical
             harvest without overpromising the smallholder estates we work with.
           </p>
@@ -60,7 +65,7 @@ function ShopLocked({ audienceCurrent, audienceTarget }) {
         <div className="container">
           <div className="section-head">
             <div>
-              <Eyebrow>Preview · What's coming</Eyebrow>
+              <Eyebrow>Preview · What&apos;s coming</Eyebrow>
               <h2 style={{ marginTop: 10 }}>The first eight teas.</h2>
             </div>
             <span className="badge-lock">
