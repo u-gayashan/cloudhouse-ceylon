@@ -200,6 +200,22 @@ textarea.field { height: auto; padding: 12px 14px; min-height: 100px; resize: ve
 .stack-4 { display:flex; flex-direction:column; gap: 16px; }
 .between { display:flex; justify-content:space-between; align-items:center; gap: 16px; }
 
+/* Responsive layout utilities — ratio passed via --cols inline so media
+   queries can still override (a direct inline grid-template-columns can't). */
+.col-split {
+  display: grid;
+  grid-template-columns: var(--cols, 1fr 1fr);
+  gap: var(--col-gap, var(--s-7));
+  align-items: var(--col-align, start);
+}
+.grid-2, .grid-3, .grid-4 { display: grid; gap: var(--s-5); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Sticky column that un-sticks once the layout stacks (see 900px block) */
+.sticky-aside { position: sticky; top: 88px; }
+
 /* Nav */
 .nav {
   position: sticky; top: 0; z-index: 50;
@@ -220,6 +236,42 @@ textarea.field { height: auto; padding: 12px 14px; min-height: 100px; resize: ve
   height: 2px; background: var(--accent);
 }
 .nav-links a:hover { color: var(--ink); }
+
+/* Mobile nav (hamburger + dropdown) */
+.nav-toggle {
+  display: none; align-items: center; justify-content: center;
+  width: 40px; height: 40px; padding: 0;
+  border: 0; background: transparent; cursor: pointer; color: var(--ink);
+}
+.nav-toggle .burger { position: relative; width: 20px; height: 14px; }
+.nav-toggle .burger i {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: currentColor; border-radius: 2px;
+  transition: transform .2s ease, opacity .2s ease, top .2s ease;
+}
+.nav-toggle .burger i:nth-child(1) { top: 0; }
+.nav-toggle .burger i:nth-child(2) { top: 6px; }
+.nav-toggle .burger i:nth-child(3) { top: 12px; }
+.nav-toggle .burger.open i:nth-child(1) { top: 6px; transform: rotate(45deg); }
+.nav-toggle .burger.open i:nth-child(2) { opacity: 0; }
+.nav-toggle .burger.open i:nth-child(3) { top: 6px; transform: rotate(-45deg); }
+
+.nav-mobile {
+  display: none;
+  position: absolute; top: 100%; left: 0; right: 0;
+  flex-direction: column; gap: 2px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  padding: 8px var(--gutter) 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, .06);
+}
+.nav-mobile a {
+  padding: 12px 2px; font-size: 16px; color: var(--ink-soft);
+  border-bottom: 1px solid var(--line);
+}
+.nav-mobile a.active { color: var(--ink); }
+.nav-mobile a:last-of-type { border-bottom: 0; }
+.nav-mobile .btn { margin-top: 14px; align-self: flex-start; }
 
 /* Footer */
 footer.foot {
@@ -262,7 +314,7 @@ footer.foot {
 .hero { padding: var(--s-8) 0 var(--s-9); }
 .hero h1.display {
   font-family: var(--f-display); font-weight: 400;
-  font-size: clamp(48px, 7vw, 104px);
+  font-size: clamp(40px, 9vw, 104px);
   line-height: 0.96; letter-spacing: -0.025em;
   margin: 0;
 }
@@ -406,7 +458,7 @@ footer.foot {
 .admin-top { display:flex; justify-content: space-between; align-items: center;
   margin-bottom: var(--s-6); }
 .admin-top h1 { font-family: var(--f-display); font-weight: 400;
-  font-size: 34px; margin: 0; letter-spacing: -0.015em; }
+  font-size: clamp(26px, 5vw, 34px); margin: 0; letter-spacing: -0.015em; }
 
 .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--s-4); }
 .stat {
@@ -415,11 +467,12 @@ footer.foot {
 }
 .stat .l { font-family: var(--f-mono); font-size: 10.5px;
   letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); }
-.stat .v { font-family: var(--f-display); font-size: 36px; margin-top: 4px;
+.stat .v { font-family: var(--f-display); font-size: clamp(26px, 5vw, 36px); margin-top: 4px;
   letter-spacing: -0.02em; }
 .stat .v em { font-style: normal; color: var(--accent); font-size: 14px;
   font-family: var(--f-mono); letter-spacing: 0; margin-left: 8px; }
 
+.table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .table { width: 100%; border-collapse: collapse;
   background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-3);
   overflow: hidden; }
@@ -442,7 +495,7 @@ footer.foot {
 .editor-card { background: var(--paper); border: 1px solid var(--line);
   border-radius: var(--r-3); padding: var(--s-6); }
 .editor-title { width: 100%; border: 0; background: transparent;
-  font-family: var(--f-display); font-size: 44px; line-height: 1.05;
+  font-family: var(--f-display); font-size: clamp(30px, 7vw, 44px); line-height: 1.05;
   letter-spacing: -0.02em; outline: none; color: var(--ink); padding: 0; margin: 0; }
 .editor-title::placeholder { color: var(--ink-mute); }
 .editor-body { width: 100%; border: 0; background: transparent;
@@ -484,15 +537,37 @@ footer.foot {
 /* Map of Ceylon regions */
 .region-map { aspect-ratio: 4/5; position: relative;
   background: var(--bg-2); border: 1px solid var(--line);
-  border-radius: var(--r-3); padding: 16px; }
+  border-radius: var(--r-3); padding: 16px; overflow: hidden; }
+
+/* Hover-reveal GIF background — fades + slow ken-burns zoom for a sleek feel */
+.region-gif { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-size: cover; background-position: center;
+  opacity: 0; transform: scale(1.1);
+  transition: opacity .5s ease, transform 7s linear; }
+.region-gif[data-show="1"] { opacity: 1; transform: scale(1); }
+.region-gif-overlay { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  opacity: 0; transition: opacity .5s ease;
+  background: linear-gradient(180deg,
+    color-mix(in oklch, var(--ink) 38%, transparent),
+    color-mix(in oklch, var(--ink) 12%, transparent)); }
+.region-gif-overlay[data-show="1"] { opacity: 1; }
+.region-outline { transition: opacity .4s ease; }
+.region-map[data-active="1"] .region-outline { opacity: 0; }
+
 .region-map .pin {
   position: absolute; transform: translate(-50%, -50%);
   display: flex; align-items: center; gap: 6px;
+  z-index: 2; transition: opacity .3s ease, transform .3s ease;
 }
+.region-map .pin[data-active="1"] { transform: translate(-50%, -50%) scale(1.12); }
 .region-map .pin i {
   width: 10px; height: 10px; border-radius: 50%;
   background: var(--accent); border: 2px solid var(--paper);
   box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 25%, transparent);
+  transition: box-shadow .3s ease;
+}
+.region-map .pin[data-active="1"] i {
+  box-shadow: 0 0 0 5px color-mix(in oklch, var(--accent) 38%, transparent);
 }
 .region-map .pin span {
   font-family: var(--f-mono); font-size: 10.5px;
@@ -500,6 +575,21 @@ footer.foot {
   color: var(--ink); background: var(--paper);
   padding: 2px 6px; border-radius: 999px;
   border: 1px solid var(--line);
+}
+
+/* Region list rows in the home "The Map" section — animated accent on hover */
+.region-row { position: relative; cursor: pointer; transition: padding-left .25s ease; }
+.region-row::before { content: ""; position: absolute; left: -12px; top: 0; bottom: 0;
+  width: 2px; background: var(--accent);
+  transform: scaleY(0); transform-origin: top; transition: transform .25s ease; }
+.region-row[data-active="1"] { padding-left: 10px; }
+.region-row[data-active="1"]::before { transform: scaleY(1); }
+.region-row-name { transition: color .25s ease; }
+.region-row[data-active="1"] .region-row-name { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .region-gif { transition: opacity .3s ease; transform: none; }
+  .region-gif[data-show="1"] { transform: none; }
 }
 
 /* Misc */
@@ -551,7 +641,7 @@ main.page { animation: fade .35s ease both; }
 [data-hero="center"] .hero-sub { margin: var(--s-4) auto 0; max-width: 50ch; color: var(--ink-soft); }
 [data-hero="center"] .hero-actions { justify-content: center; margin-top: var(--s-5); }
 [data-hero="center"] .hero-disc {
-  width: 320px; height: 320px; border-radius: 50%;
+  width: min(320px, 72vw); height: min(320px, 72vw); border-radius: 50%;
   background: var(--accent); margin: var(--s-6) auto 0; position: relative;
 }
 [data-hero="center"] .hero-disc::after {
@@ -612,12 +702,85 @@ main.page { animation: fade .35s ease both; }
 .stepper .step.done .n { background: var(--accent); color: var(--paper); border-color: var(--accent); }
 .stepper .step .bar { width: 36px; height: 1px; background: var(--line); }
 
-/* Responsive */
+/* Responsive
+   Breakpoints: 900 tablet · 760 nav collapse · 600 phone · 380 small phone */
 @media (max-width: 900px) {
+  /* Stack the major layouts */
+  .col-split { grid-template-columns: 1fr; gap: var(--col-gap-sm, var(--s-6)); }
   .journal-grid { grid-template-columns: 1fr 1fr; }
   .product-grid { grid-template-columns: 1fr 1fr; }
   .foot-grid { grid-template-columns: 1fr 1fr; }
-  .admin-shell { grid-template-columns: 1fr; }
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .media-grid { grid-template-columns: repeat(3, 1fr); }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
   .editor-wrap { grid-template-columns: 1fr; }
   [data-hero="split"] .hero-grid { grid-template-columns: 1fr; }
+  /* Sticky asides drop into normal flow once stacked */
+  .summary, .sticky-aside { position: static; }
+
+  /* Admin: collapse to one column, sidebar becomes a horizontal scroll strip */
+  .admin-shell { grid-template-columns: 1fr; }
+  .admin-side {
+    border-right: 0; border-bottom: 1px solid var(--line);
+    display: flex; gap: 4px; overflow-x: auto;
+    padding: 10px var(--gutter);
+  }
+  .admin-side .logo { flex-shrink: 0; align-self: center; margin-right: 4px; }
+  .admin-side .group { margin-top: 0; display: flex; gap: 4px; flex-shrink: 0; }
+  .admin-side .group h6 { display: none; }
+  .admin-side a { white-space: nowrap; }
+  /* Hide the audience-gate + user blocks (the only direct divs with inline style) */
+  .admin-side > div[style] { display: none; }
+  .admin-main { padding: var(--s-5) var(--gutter); }
+}
+
+/* Nav collapses to hamburger */
+@media (max-width: 760px) {
+  .nav-links, .nav .nav-actions { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .nav-mobile.open { display: flex; }
+}
+
+@media (max-width: 600px) {
+  /* Tighten the large spacing tokens — cascades to .section, .hero, footer, etc. */
+  :root { --gutter: 18px; --s-7: 32px; --s-8: 44px; --s-9: 60px; }
+
+  .journal-grid { grid-template-columns: 1fr; }
+  .foot-grid { grid-template-columns: 1fr; }
+  .foot .meta { flex-direction: column; gap: 6px; align-items: flex-start; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .media-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Dense tables scroll horizontally inside their wrapper */
+  .table { min-width: 680px; }
+
+  /* Editor toolbar scrolls instead of overflowing */
+  .toolbar { width: auto; max-width: 100%; overflow-x: auto; }
+
+  .admin-top { flex-wrap: wrap; gap: 12px; }
+
+  .stepper { gap: 10px; }
+  .stepper .step .bar { width: 16px; }
+
+  /* Editorial hero photo is a thin sliver at 21/9 on phones */
+  [data-hero="editorial"] .hero-photo { aspect-ratio: 4 / 3; }
+
+  /* Cart line reflows to two rows (no JSX change — children targeted by order) */
+  .cart-line {
+    grid-template-columns: 56px 1fr auto;
+    grid-template-areas:
+      "img name remove"
+      "img qty  price";
+    column-gap: 12px; row-gap: 12px;
+  }
+  .cart-line > :nth-child(1) { grid-area: img; }
+  .cart-line > :nth-child(2) { grid-area: name; }
+  .cart-line > :nth-child(3) { grid-area: qty; justify-self: start; }
+  .cart-line > :nth-child(4) { grid-area: price; }
+  .cart-line > :nth-child(5) { grid-area: remove; justify-self: end; align-self: start; }
+}
+
+@media (max-width: 380px) {
+  .product-grid { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr; }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { POSTS, PRODUCTS } from "@/lib/data";
 import { Btn, Eyebrow, PH } from "@/components/ui";
@@ -12,6 +13,7 @@ export default function HomePage() {
   const featured = POSTS.slice(0, 3);
   const products = PRODUCTS.slice(0, 4);
   const pct = Math.min(100, Math.round((audienceCurrent / audienceTarget) * 100));
+  const [activeRegion, setActiveRegion] = useState<string | null>(null);
 
   return (
     <main className="page">
@@ -144,13 +146,14 @@ export default function HomePage() {
         }}
       >
         <div
-          className="container"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 48,
-            alignItems: "center",
-          }}
+          className="container col-split"
+          style={
+            {
+              "--cols": "1fr 1fr",
+              "--col-gap": "48px",
+              "--col-align": "center",
+            } as CSSProperties
+          }
         >
           <div>
             <Eyebrow>The House · In progress</Eyebrow>
@@ -190,15 +193,10 @@ export default function HomePage() {
 
       <section className="section">
         <div
-          className="container"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1.3fr",
-            gap: 56,
-            alignItems: "start",
-          }}
+          className="container col-split"
+          style={{ "--cols": "1fr 1.3fr", "--col-gap": "56px" } as CSSProperties}
         >
-          <div style={{ position: "sticky", top: 88 }}>
+          <div className="sticky-aside">
             <Eyebrow>The Map</Eyebrow>
             <h2
               style={{
@@ -252,6 +250,10 @@ export default function HomePage() {
               ].map((r) => (
                 <div
                   key={r.id}
+                  className="region-row"
+                  data-active={activeRegion === r.id ? "1" : "0"}
+                  onMouseEnter={() => setActiveRegion(r.id)}
+                  onMouseLeave={() => setActiveRegion(null)}
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr auto",
@@ -261,7 +263,12 @@ export default function HomePage() {
                   }}
                 >
                   <div>
-                    <div style={{ fontFamily: "var(--f-display)", fontSize: 20 }}>{r.name}</div>
+                    <div
+                      className="region-row-name"
+                      style={{ fontFamily: "var(--f-display)", fontSize: 20 }}
+                    >
+                      {r.name}
+                    </div>
                     <div style={{ fontSize: 13, color: "var(--ink-soft)", marginTop: 2 }}>
                       {r.note}
                     </div>
@@ -282,7 +289,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <CeylonMap />
+          <CeylonMap activeRegion={activeRegion} onRegionHover={setActiveRegion} />
         </div>
       </section>
 
@@ -346,7 +353,7 @@ export default function HomePage() {
                 <h3
                   style={{
                     fontFamily: "var(--f-display)",
-                    fontSize: 36,
+                    fontSize: "clamp(26px, 5vw, 36px)",
                     margin: "12px 0 6px",
                     fontWeight: 400,
                     letterSpacing: "-.015em",
@@ -390,8 +397,8 @@ export default function HomePage() {
 
       <section className="section">
         <div
-          className="container"
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }}
+          className="container col-split"
+          style={{ "--cols": "1fr 1fr", "--col-gap": "56px" } as CSSProperties}
         >
           <div className="quote">
             &quot;You don&apos;t drink the elevation. <em>But you can taste it,</em> if the leaf has been

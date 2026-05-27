@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { POSTS } from "@/lib/data";
 import { Btn, Eyebrow, PH } from "@/components/ui";
@@ -60,12 +61,14 @@ export default function AdminDashboardPage() {
         </div>
 
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.4fr 1fr",
-            gap: 24,
-            marginTop: 24,
-          }}
+          className="col-split"
+          style={
+            {
+              "--cols": "1.4fr 1fr",
+              "--col-gap": "24px",
+              marginTop: 24,
+            } as CSSProperties
+          }
         >
           <div className="card" style={{ padding: 24 }}>
             <div className="between">
@@ -81,7 +84,7 @@ export default function AdminDashboardPage() {
                 >
                   Audience growth · 90 days
                 </div>
-                <div style={{ fontFamily: "var(--f-display)", fontSize: 28, marginTop: 4 }}>
+                <div style={{ fontFamily: "var(--f-display)", fontSize: "clamp(22px, 4.5vw, 28px)", marginTop: 4 }}>
                   {audienceCurrent.toLocaleString()} readers
                 </div>
               </div>

@@ -60,13 +60,15 @@ export default function JournalPage() {
         <div className="container">
           {filter === "All" && (
             <article
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1.3fr 1fr",
-                gap: 56,
-                marginBottom: 64,
-                cursor: "pointer",
-              }}
+              className="col-split"
+              style={
+                {
+                  "--cols": "1.3fr 1fr",
+                  "--col-gap": "56px",
+                  marginBottom: 64,
+                  cursor: "pointer",
+                } as React.CSSProperties
+              }
               onClick={() => router.push(`/journal/${POSTS[0].id}`)}
             >
               <PH label="FEATURED · 21:9" style={{ aspectRatio: "21/9" }} />
@@ -78,7 +80,7 @@ export default function JournalPage() {
                 <h2
                   className="serif"
                   style={{
-                    fontSize: 40,
+                    fontSize: "clamp(26px, 6vw, 40px)",
                     lineHeight: 1.08,
                     letterSpacing: "-.015em",
                     margin: 0,

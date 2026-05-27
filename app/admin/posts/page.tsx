@@ -34,7 +34,7 @@ export default function AdminPostsPage() {
             <input
               className="field"
               placeholder="Search posts…"
-              style={{ width: 260, height: 36 }}
+              style={{ width: 260, maxWidth: "100%", height: 36 }}
             />
             <Btn small onClick={() => router.push("/admin/editor")}>
               + New entry

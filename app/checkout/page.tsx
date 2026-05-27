@@ -18,15 +18,15 @@ export default function CheckoutPage() {
     <main className="page">
       <section className="section" style={{ paddingTop: 56 }}>
         <div
-          className="container"
-          style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 56 }}
+          className="container col-split"
+          style={{ "--cols": "1.5fr 1fr", "--col-gap": "56px" } as React.CSSProperties}
         >
           <div>
             <Eyebrow>Checkout</Eyebrow>
             <h1
               className="serif"
               style={{
-                fontSize: 44,
+                fontSize: "clamp(28px, 6vw, 44px)",
                 letterSpacing: "-.02em",
                 margin: "12px 0 28px",
                 fontWeight: 400,

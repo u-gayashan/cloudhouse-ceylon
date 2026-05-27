@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo, Btn } from "./ui";
@@ -10,6 +11,7 @@ export function Nav() {
   const router = useRouter();
   const { cartCount } = useCart();
   const { shopUnlocked } = useTweakValues();
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const is = (path: string) => {
     if (path === "/") return pathname === "/";
@@ -20,42 +22,73 @@ export function Nav() {
     return false;
   };
 
+  // Close the mobile menu whenever the route changes.
+  React.useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const links = (
+    <>
+      <Link href="/" className={is("/") ? "active" : ""}>
+        Home
+      </Link>
+      <Link href="/journal" className={is("/journal") ? "active" : ""}>
+        Journal
+      </Link>
+      <Link href="/about" className={is("/about") ? "active" : ""}>
+        The House
+      </Link>
+      <Link href="/shop" className={is("/shop") ? "active" : ""}>
+        Shop{" "}
+        {!shopUnlocked && (
+          <span className="badge-lock" style={{ marginLeft: 6 }}>
+            <span className="icon" />
+          </span>
+        )}
+      </Link>
+      <Link href="/admin/login" className={is("/admin") ? "active" : ""}>
+        Admin
+      </Link>
+    </>
+  );
+
+  const cartBtn = (
+    <Btn variant="ghost" small onClick={() => router.push("/cart")}>
+      Cart{" "}
+      <span className="mono" style={{ opacity: 0.6, marginLeft: 4 }}>
+        {String(cartCount).padStart(2, "0")}
+      </span>
+    </Btn>
+  );
+
   return (
     <header className="nav">
       <div className="container nav-inner">
         <Link href="/">
           <Logo />
         </Link>
-        <nav className="nav-links">
-          <Link href="/" className={is("/") ? "active" : ""}>
-            Home
-          </Link>
-          <Link href="/journal" className={is("/journal") ? "active" : ""}>
-            Journal
-          </Link>
-          <Link href="/about" className={is("/about") ? "active" : ""}>
-            The House
-          </Link>
-          <Link href="/shop" className={is("/shop") ? "active" : ""}>
-            Shop{" "}
-            {!shopUnlocked && (
-              <span className="badge-lock" style={{ marginLeft: 6 }}>
-                <span className="icon" />
-              </span>
-            )}
-          </Link>
-          <Link href="/admin/login" className={is("/admin") ? "active" : ""}>
-            Admin
-          </Link>
-        </nav>
-        <div className="row" style={{ gap: 10 }}>
-          <Btn variant="ghost" small onClick={() => router.push("/cart")}>
-            Cart{" "}
-            <span className="mono" style={{ opacity: 0.6, marginLeft: 4 }}>
-              {String(cartCount).padStart(2, "0")}
-            </span>
-          </Btn>
+        <nav className="nav-links">{links}</nav>
+        <div className="row nav-actions" style={{ gap: 10 }}>
+          {cartBtn}
         </div>
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="nav-mobile"
+          onClick={() => setMenuOpen((o) => !o)}
+        >
+          <span className={`burger ${menuOpen ? "open" : ""}`}>
+            <i />
+            <i />
+            <i />
+          </span>
+        </button>
+      </div>
+      <div id="nav-mobile" className={`nav-mobile ${menuOpen ? "open" : ""}`}>
+        {links}
+        {cartBtn}
       </div>
     </header>
   );

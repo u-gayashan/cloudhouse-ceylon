@@ -33,7 +33,7 @@ export default function AdminMediaPage() {
             <input
               className="field"
               placeholder="Search media…"
-              style={{ width: 260, height: 36 }}
+              style={{ width: 260, maxWidth: "100%", height: 36 }}
             />
             <Btn small>↑ Upload</Btn>
           </div>

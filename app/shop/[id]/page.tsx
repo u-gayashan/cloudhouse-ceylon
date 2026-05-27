@@ -36,13 +36,14 @@ export default function ProductPage() {
             ← The Shop
           </Link>
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1.1fr 1fr",
-              gap: 56,
-              marginTop: 28,
-              alignItems: "start",
-            }}
+            className="col-split"
+            style={
+              {
+                "--cols": "1.1fr 1fr",
+                "--col-gap": "56px",
+                marginTop: 28,
+              } as React.CSSProperties
+            }
           >
             <div>
               <PH label={`${p.region} · MAIN · 4:5`} style={{ aspectRatio: "4/5" }} />
@@ -60,7 +61,7 @@ export default function ProductPage() {
               </div>
             </div>
 
-            <div style={{ position: "sticky", top: 88 }}>
+            <div className="sticky-aside">
               <div
                 className="mono"
                 style={{
@@ -75,7 +76,7 @@ export default function ProductPage() {
               <h1
                 className="serif"
                 style={{
-                  fontSize: 52,
+                  fontSize: "clamp(32px, 7vw, 52px)",
                   lineHeight: 1.04,
                   letterSpacing: "-.02em",
                   margin: "10px 0 20px",
@@ -107,13 +108,7 @@ export default function ProductPage() {
                 <span>Tasting · Brewing · Origin</span>
               </div>
 
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr 1fr",
-                  gap: 16,
-                }}
-              >
+              <div className="grid-3" style={{ gap: 16 }}>
                 {[
                   { l: "Water", v: "95°C" },
                   { l: "Leaf", v: "3 g / 200 ml" },
@@ -219,12 +214,14 @@ export default function ProductPage() {
             </div>
           </div>
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1.2fr 1fr",
-              gap: 56,
-              alignItems: "center",
-            }}
+            className="col-split"
+            style={
+              {
+                "--cols": "1.2fr 1fr",
+                "--col-gap": "56px",
+                "--col-align": "center",
+              } as React.CSSProperties
+            }
           >
             <PH
               label={`${p.estate.toUpperCase()} · ESTATE FILM · 16:9`}
@@ -234,7 +231,7 @@ export default function ProductPage() {
               <h3
                 className="serif"
                 style={{
-                  fontSize: 32,
+                  fontSize: "clamp(24px, 5vw, 32px)",
                   letterSpacing: "-.015em",
                   margin: 0,
                   lineHeight: 1.1,

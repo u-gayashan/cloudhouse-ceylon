@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useRouter } from "next/navigation";
 import { PH, Tag } from "./ui";
 import type { Post, Product } from "@/lib/types";
@@ -74,14 +75,35 @@ export function ProductCard({ product, onOpen, locked }: ProductCardProps) {
   );
 }
 
+// One placeholder GIF for now; drop per-region files into public/regions/
+// and add entries here (e.g. nuwara: "/regions/nuwara.gif") to override.
+const PLACEHOLDER_GIF = "/regions/mist.gif";
+const REGION_GIFS: Record<string, string> = {};
+
 interface CeylonMapProps {
-  activeRegion?: string;
+  activeRegion?: string | null;
+  onRegionHover?: (id: string | null) => void;
 }
 
-export function CeylonMap({ activeRegion }: CeylonMapProps) {
+export function CeylonMap({ activeRegion, onRegionHover }: CeylonMapProps) {
+  // Retain the last hovered region so the GIF can fade OUT smoothly — it keeps
+  // showing that region's image while opacity animates back to 0 on mouse-leave.
+  const [lastRegion, setLastRegion] = React.useState<string | null>(null);
+  React.useEffect(() => {
+    if (activeRegion) setLastRegion(activeRegion);
+  }, [activeRegion]);
+  const gif = lastRegion ? REGION_GIFS[lastRegion] ?? PLACEHOLDER_GIF : null;
+
   return (
-    <div className="region-map">
+    <div className="region-map" data-active={activeRegion ? "1" : "0"}>
+      <div
+        className="region-gif"
+        data-show={activeRegion ? "1" : "0"}
+        style={gif ? { backgroundImage: `url(${gif})` } : undefined}
+      />
+      <div className="region-gif-overlay" data-show={activeRegion ? "1" : "0"} />
       <svg
+        className="region-outline"
         viewBox="0 0 200 260"
         style={{
           position: "absolute",
@@ -109,6 +131,9 @@ export function CeylonMap({ activeRegion }: CeylonMapProps) {
         <div
           key={p.id}
           className="pin"
+          data-active={activeRegion === p.id ? "1" : "0"}
+          onMouseEnter={() => onRegionHover?.(p.id)}
+          onMouseLeave={() => onRegionHover?.(null)}
           style={{
             left: p.x,
             top: p.y,

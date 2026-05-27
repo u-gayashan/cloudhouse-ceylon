@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { Btn, Eyebrow, PH } from "@/components/ui";
 
@@ -41,14 +42,7 @@ export default function AboutPage() {
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
           <PH label="THE HOUSE · CONCEPT 1 · 21:9" style={{ aspectRatio: "21/9" }} />
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: 16,
-              marginTop: 16,
-            }}
-          >
+          <div className="grid-3" style={{ gap: 16, marginTop: 16 }}>
             <PH label="SITE · 4:5" style={{ aspectRatio: "4/5" }} />
             <PH label="STONE WORK · 4:5" style={{ aspectRatio: "4/5" }} />
             <PH label="DOOR DETAIL · 4:5" style={{ aspectRatio: "4/5" }} />
@@ -58,8 +52,8 @@ export default function AboutPage() {
 
       <section className="section">
         <div
-          className="container"
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }}
+          className="container col-split"
+          style={{ "--cols": "1fr 1fr", "--col-gap": "56px" } as CSSProperties}
         >
           <div>
             <Eyebrow>Build log</Eyebrow>

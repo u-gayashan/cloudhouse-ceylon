@@ -145,7 +145,8 @@ export function PostsTable({ small }: PostsTableProps) {
   const status = ["live", "live", "draft", "live", "live", "draft"];
   const list = small ? POSTS.slice(0, 4) : POSTS;
   return (
-    <table className="table">
+    <div className="table-wrap">
+      <table className="table">
       <thead>
         <tr>
           <th style={{ width: 40 }}></th>
@@ -194,6 +195,7 @@ export function PostsTable({ small }: PostsTableProps) {
           </tr>
         ))}
       </tbody>
-    </table>
+      </table>
+    </div>
   );
 }

@@ -46,6 +46,7 @@ export default function AdminProductsPage() {
             borderRadius: "var(--r-2)",
             marginBottom: 18,
             display: "flex",
+            flexWrap: "wrap",
             gap: 14,
             alignItems: "center",
           }}
@@ -65,7 +66,8 @@ export default function AdminProductsPage() {
           </Btn>
         </div>
 
-        <table className="table">
+        <div className="table-wrap">
+          <table className="table">
           <thead>
             <tr>
               <th style={{ width: 50 }}></th>
@@ -117,7 +119,8 @@ export default function AdminProductsPage() {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </main>
     </div>
   );

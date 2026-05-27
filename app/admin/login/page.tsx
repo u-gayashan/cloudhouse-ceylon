@@ -19,13 +19,14 @@ export default function AdminLoginPage() {
       }}
     >
       <div
-        className="container"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 56,
-          alignItems: "center",
-        }}
+        className="container col-split"
+        style={
+          {
+            "--cols": "1fr 1fr",
+            "--col-gap": "56px",
+            "--col-align": "center",
+          } as React.CSSProperties
+        }
       >
         <div>
           <Eyebrow>Cloudhouse · Newsroom</Eyebrow>

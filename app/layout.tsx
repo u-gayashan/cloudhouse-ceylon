@@ -1,10 +1,15 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Providers } from "./providers";
 import Shell from "@/components/shell";
 
 export const metadata: Metadata = {
   title: "Cloudhouse Ceylon — Pure single-origin tea from the Sri Lankan highlands",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

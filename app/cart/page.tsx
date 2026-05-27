@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { Btn, Eyebrow, PH } from "@/components/ui";
 import { useCart } from "@/app/providers";
@@ -32,7 +33,7 @@ export default function CartPage() {
             <h1
               className="serif"
               style={{
-                fontSize: 64,
+                fontSize: "clamp(34px, 9vw, 64px)",
                 letterSpacing: "-.02em",
                 margin: "16px 0 14px",
                 fontWeight: 400,
@@ -58,8 +59,8 @@ export default function CartPage() {
     <main className="page">
       <section className="section" style={{ paddingTop: 56 }}>
         <div
-          className="container"
-          style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 56 }}
+          className="container col-split"
+          style={{ "--cols": "1.5fr 1fr", "--col-gap": "56px" } as CSSProperties}
         >
           <div>
             <Eyebrow>
@@ -68,7 +69,7 @@ export default function CartPage() {
             <h1
               className="serif"
               style={{
-                fontSize: 48,
+                fontSize: "clamp(30px, 7vw, 48px)",
                 letterSpacing: "-.02em",
                 margin: "14px 0 24px",
                 fontWeight: 400,
